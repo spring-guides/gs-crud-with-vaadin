@@ -53,7 +53,7 @@ public class CustomerEditor extends VerticalLayout {
         save.setStyleName(ValoTheme.BUTTON_PRIMARY);
         save.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
-        // wire action buttons to save, delete reset
+        // wire action buttons to save, delete and reset
         save.addClickListener(e -> repository.save(customer));
         delete.addClickListener(e -> repository.delete(customer));
         cancel.addClickListener(e -> editCustomer(customer));

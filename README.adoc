@@ -1,5 +1,5 @@
 ---
-tags: [vaadin, spring-data, jpa,]
+tags: [vaadin, spring-data, jpa]
 projects: [spring-data-jpa, spring-boot]
 ---
 :toc:
@@ -30,7 +30,7 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 [[initial]]
 == Create the backend services
 
-This example is pretty much continuation from Accessing Data with JPA guide. Only the entity class has getters and setters and the custom search method in the repository is bit more graceful for end users. If you started with a fresh project add following entity and repository objects. In case you started with from the "initial" step, these are already available for you. 
+This example is pretty much continuation from Accessing Data with JPA guide. Only the entity class has getters and setters and the custom search method in the repository is bit more graceful for end users. If you started with a fresh project add following entity and repository objects. In case you started with from the "initial" step, these are already available for you.
 
 `src/main/java/hello/Customer.java`
 [source,java]
@@ -43,7 +43,7 @@ include::complete/src/main/java/hello/Customer.java[]
 ----
 include::complete/src/main/java/hello/CustomerRepository.java[]
 ----
-    
+
 
 Also you can leave the Spring Boot based application intact as it will fill our DB with some example data.
 
@@ -135,15 +135,21 @@ If you have large tables and lots of concurrent users, you most likely don't wan
 
 Before the large data set becomes a problem to your server, it will cause a headache for your users trying to find the relevant row for editing. Lets use a TextField component and use its value to filter the resultset from the database. Lets first modify the listCustomer method to support filtering:
 
-```
-    private void listCustomers() {
-        grid.setContainerDataSource(
+```java
+    private void listCustomers(String text) {
+        if (StringUtils.isEmpty(text)) {
+            grid.setContainerDataSource(
                 new BeanItemContainer(Customer.class, repo.findAll()));
+        } else {
+            grid.setContainerDataSource(
+                    new BeanItemContainer(Customer.class,
+                            repo.findByLastNameStartsWithIgnoreCase(text)));
+        }
     }
 ```
 
 And then use TextField component and hook a listener to it to do the filtering using the CustomerRepository. The TextChangeListener is called lazily when the text is changed in the field.
-```
+```java
         TextField filter = new TextField();
         filter.setInputPrompt("Filter by last name");
         filter.addTextChangeListener(e -> listCustomers(e.getText()));
@@ -153,7 +159,7 @@ And then use TextField component and hook a listener to it to do the filtering u
 
 == Define the editor component
 
-As Vaadin UIs are just plain Java code, there are no excuses not to write re-usable code from the very beginning. Lets define an editor component for our Customer entity. We'll make it a Spring managed bean so we can directly inject the CustomerRepository to the editor and tackle C,U and D parts or our CRUD functionality.  
+As Vaadin UIs are just plain Java code, there are no excuses not to write re-usable code from the very beginning. Lets define an editor component for our Customer entity. We'll make it a Spring managed bean so we can directly inject the CustomerRepository to the editor and tackle C,U and D parts or our CRUD functionality.
 
 `src/main/java/hello/CustomerEditor.java`
 [source,java]
