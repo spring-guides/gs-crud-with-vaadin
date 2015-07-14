@@ -1,0 +1,178 @@
+---
+tags: [vaadin, spring-data, jpa,]
+projects: [spring-data-jpa, spring-boot]
+---
+:toc:
+:icons: font
+:source-highlighter: prettify
+:project_id: gs-crud-with-vaadin
+This guide walks you through the process of building an application that uses Vaadin UI for a Spring Data JPA based backend.
+
+== What you'll build
+
+You'll build a Vaadin UI for the JPA repositories you built in link:/guides/gs/accessing-data-jpa[Accessing JPA Data with JPA]. You'll get full CRUD (Create, Read, Update, Delete) functionality and a filtering example that uses custom repository method.
+
+== What you'll need
+
+:java_version: 1.8
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
+
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-gradle.adoc[]
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-maven.adoc[]
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-sts.adoc[]
+
+
+[[initial]]
+== Create the backend services
+
+This example is pretty much continuation from Accessing Data with JPA guide. Only the entity class has getters and setters and the custom search method in the repository is bit more graceful for end users. If you started with a fresh project add following entity and repository objects. In case you started with from the "initial" step, these are already available for you. 
+
+`src/main/java/hello/Customer.java`
+[source,java]
+----
+include::complete/src/main/java/hello/Customer.java[]
+----
+
+`src/main/java/hello/CustomerRepository.java`
+[source,java]
+----
+include::complete/src/main/java/hello/CustomerRepository.java[]
+----
+    
+
+Also you can leave the Spring Boot based application intact as it will fill our DB with some example data.
+
+`src/main/java/hello/Application.java`
+[source,java]
+----
+include::complete/src/main/java/hello/Application.java[]
+----
+
+== Vaadin dependencies
+
+If you checked out the initial state, you have all necessary dependencies already set up, but lets look at what you need to do to add Vaadin support for a fresh Spring project. Vaadin Spring integration contains a Spring boot starter dependency collection, so all your must do is to add this Maven snippet or similar Gradle configuration:
+
+```
+<dependency>
+    <groupId>com.vaadin</groupId>
+    <artifactId>vaadin-spring-boot-starter</artifactId>
+    <version>1.0.0.beta3</version>
+</dependency>
+```
+
+Additionally, you might want to override the used Vaadin version. This can be easily done by defining the Vaadin BOM like this:
+
+```
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-bom</artifactId>
+                <version>7.5.1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+```
+
+Gradle don't support "BOMs" by default, but there is a handy link:https://plugins.gradle.org/plugin/io.spring.dependency-management[plugin for that]. Check out the build.grade file for an example how to use it.
+
+== Define the UI class
+
+The UI class is the entry point for Vaadin UI logic. In Spring Boot applications you'll just need to annotate it with @SpringUI and it will be automatically picked up by Spring. A simple "hello world" could look like this:
+
+```
+package hello;
+
+import com.vaadin.annotations.Theme;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.spring.annotation.SpringUI;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
+
+@SpringUI
+@Theme("valo")
+public class VaadinUI extends UI {
+
+    @Override
+    protected void init(VaadinRequest request) {
+	    setContent(new Button("Click me", e->Notification.show("Hello Spring+Vaadin user!")));
+    }
+}
+```
+
+== List entities in a data grid
+
+Lets get back to the VaadinUI and list the existing components using Grid component. The list of entities from an injected CustomerRepository is simply wrapped into BeanItemContainer that will provide the data for the Grid component. The body of your VaadinUI could look like this:
+
+```
+    @Autowired
+    CustomerRepository repo;
+    Grid grid = new Grid();
+
+    @Override
+    protected void init(VaadinRequest request) {
+        setContent(grid);
+        listCustomers();
+    }
+
+    private void listCustomers() {
+        grid.setContainerDataSource(
+                new BeanItemContainer(Customer.class, repo.findAll()));
+    }
+```
+
+If you have large tables and lots of concurrent users, you most likely don't want to bind the whole dataset to your UI components. Although many Vaadin components transparently lazy loads the data from server to browser, the solution above keeps the whole list of data in the server memory. To save some memory you can show only the topmost results, use paging or provide a lazy loading solution for example by using Viritin or LazyQueryContainer Vaadin add-ons. You can find these and 500 other add-ons from link:https://vaadin.com/directory[Vaadin Directory].
+
+== Filtering the data
+
+Before the large data set becomes a problem to your server, it will cause a headache for your users trying to find the relevant row for editing. Lets use a TextField component and use its value to filter the resultset from the database. Lets first modify the listCustomer method to support filtering:
+
+```
+    private void listCustomers() {
+        grid.setContainerDataSource(
+                new BeanItemContainer(Customer.class, repo.findAll()));
+    }
+```
+
+And then use TextField component and hook a listener to it to do the filtering using the CustomerRepository. The TextChangeListener is called lazily when the text is changed in the field.
+```
+        TextField filter = new TextField();
+        filter.setInputPrompt("Filter by last name");
+        filter.addTextChangeListener(e -> listCustomers(e.getText()));
+        VerticalLayout mainLayout = new VerticalLayout(filter, grid);
+        setContent(mainLayout);
+```
+
+== Define the editor component
+
+As Vaadin UIs are just plain Java code, there are no excuses not to write re-usable code from the very beginning. Lets define an editor component for our Customer entity. We'll make it a Spring managed bean so we can directly inject the CustomerRepository to the editor and tackle C,U and D parts or our CRUD functionality.  
+
+`src/main/java/hello/CustomerEditor.java`
+[source,java]
+----
+include::complete/src/main/java/hello/CustomerEditor.java[]
+----
+
+In a larger application you could then use this editor component in multiple places. Also note, that in large applications, you might want to apply some common patterns like MVP to structure your UI code.
+
+== Wire the editor
+
+In the previous steps you have already seen some basics of component based programming. It is very familiar to all who have written some desktop software with UI libraries like Swing. Using a Button and selection listener to Grid we can fully integrate our editor to the main UI. The final version of the VaadinUI class could look something like this:
+
+`src/main/java/hello/VaadinUI.java`
+[source,java]
+----
+include::complete/src/main/java/hello/VaadinUI.java[]
+----
+
+== Summary
+
+Congratulations! You've written a full featured CRUD UI to your application that uses Spring Data JPA to save objects to a database and to fetch them -- all without any exposed REST services or writing a single line of JavaScript or HTML markup.
