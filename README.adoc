@@ -182,3 +182,4 @@ Congratulations! You've written a full featured CRUD UI application using Spring
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
 
+
