@@ -179,3 +179,6 @@ include::complete/src/main/java/hello/VaadinUI.java[]
 == Summary
 
 Congratulations! You've written a full featured CRUD UI application using Spring Data JPA for persistence. And you did it without exposing any REST services or having to write a single line of JavaScript or HTML.
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
+
