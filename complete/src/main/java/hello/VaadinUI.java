@@ -23,21 +23,20 @@ public class VaadinUI extends UI {
 
 	private final CustomerEditor editor;
 
-    private final Grid grid;
+	private final Grid grid;
 
-    private final TextField filter;
+	private final TextField filter;
 
-    private final Button addNewBtn;
+	private final Button addNewBtn;
 
-    @Autowired
+	@Autowired
 	public VaadinUI(CustomerRepository repo, CustomerEditor editor) {
 		this.repo = repo;
 		this.editor = editor;
-        this.grid = new Grid();
-        this.filter = new TextField();
-        this.addNewBtn = new Button("New customer", FontAwesome.PLUS);
+		this.grid = new Grid();
+		this.filter = new TextField();
+		this.addNewBtn = new Button("New customer", FontAwesome.PLUS);
 	}
-
 
 	@Override
 	protected void init(VaadinRequest request) {
