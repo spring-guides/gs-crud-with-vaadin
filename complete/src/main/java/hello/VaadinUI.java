@@ -66,7 +66,7 @@ public class VaadinUI extends UI {
 				editor.setVisible(false);
 			}
 			else {
-				editor.editCustomer((Customer) e.getSelected().iterator().next());
+				editor.editCustomer((Customer) grid.getSelectedRow());
 			}
 		});
 
