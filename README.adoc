@@ -66,7 +66,7 @@ If you checked out the "initial" state project, you have all necessary dependenc
 include::complete/pom.xml[tag=starter]
 ----
 
-Additionally, you might want to override the used Vaadin version into the newest available version. This can be easily done by defining the Vaadin Bill of Materials (BOM) like this:
+The example uses a newer version of Vaadin, than the default one brought in by the starter module. To use a newer version, define the Vaadin Bill of Materials (BOM) like this:
 
 [source,xml,indent=0]
 ----
