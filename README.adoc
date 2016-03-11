@@ -73,7 +73,7 @@ The example uses a newer version of Vaadin, than the default one brought in by t
 include::complete/pom.xml[tag=bom]
 ----
 
-Gradle doesn't support "BOMs" by default, but there is a handy https://plugins.gradle.org/plugin/io.spring.dependency-management[plugin for that]. Check out the build.grade file for an example on how to use it.
+Gradle doesn't support "BOMs" by default, but there is a handy https://plugins.gradle.org/plugin/io.spring.dependency-management[plugin for that]. Check out the https://github.com/spring-guides/gs-crud-with-vaadin/blob/master/complete/build.gradle[build.gradle build file for an example on how to accomplish the same thing].
 
 == Define the UI class
 
