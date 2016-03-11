@@ -31,13 +31,13 @@ targetCompatibility = 1.8
 
 dependencyManagement {
   imports {
-    mavenBom 'com.vaadin:vaadin-bom:7.5-SNAPSHOT'
+    mavenBom 'com.vaadin:vaadin-bom:7.6.4'
   }
 }
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile("com.vaadin:vaadin-spring-boot-starter:1.0.0.beta3")
+    compile("com.vaadin:vaadin-spring-boot-starter:1.0.0")
     compile("com.h2database:h2")
     testCompile("junit:junit")
 }
