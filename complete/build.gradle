@@ -4,12 +4,10 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE")
-        classpath "io.spring.gradle:dependency-management-plugin:0.5.1.RELEASE"
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.0.RELEASE")
     }
 }
 
-apply plugin: "io.spring.dependency-management"
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
@@ -40,5 +38,6 @@ dependencies {
     compile("com.vaadin:vaadin-spring-boot-starter:1.0.0")
     compile("com.h2database:h2")
     testCompile("junit:junit")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 
