@@ -23,9 +23,9 @@ public class VaadinUI extends UI {
 
 	private final CustomerEditor editor;
 
-	private final Grid grid;
+	final Grid grid;
 
-	private final TextField filter;
+	final TextField filter;
 
 	private final Button addNewBtn;
 
@@ -84,7 +84,7 @@ public class VaadinUI extends UI {
 	}
 
 	// tag::listCustomers[]
-	private void listCustomers(String text) {
+	void listCustomers(String text) {
 		if (StringUtils.isEmpty(text)) {
 			grid.setContainerDataSource(
 					new BeanItemContainer(Customer.class, repo.findAll()));
