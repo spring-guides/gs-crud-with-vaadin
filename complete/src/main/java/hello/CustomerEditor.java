@@ -19,7 +19,7 @@ import com.vaadin.ui.themes.ValoTheme;
  * multiple places. This example component is only used in VaadinUI.
  * <p>
  * In a real world application you'll most likely using a common super class for all your
- * forms - less code, better UX. See e.g. AbstractForm in Virin
+ * forms - less code, better UX. See e.g. AbstractForm in Viritin
  * (https://vaadin.com/addon/viritin).
  */
 @SpringComponent
