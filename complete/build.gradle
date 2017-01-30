@@ -4,7 +4,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.0.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.4.RELEASE")
     }
 }
 
@@ -29,13 +29,13 @@ targetCompatibility = 1.8
 
 dependencyManagement {
   imports {
-    mavenBom 'com.vaadin:vaadin-bom:7.6.4'
+    mavenBom 'com.vaadin:vaadin-bom:7.7.6'
   }
 }
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile("com.vaadin:vaadin-spring-boot-starter:1.0.0")
+    compile("com.vaadin:vaadin-spring-boot-starter:1.1.1")
     compile("com.h2database:h2")
     testCompile("junit:junit")
     testCompile("org.springframework.boot:spring-boot-starter-test")
