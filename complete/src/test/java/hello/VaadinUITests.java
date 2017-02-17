@@ -2,6 +2,7 @@ package hello;
 
 import javax.annotation.PostConstruct;
 
+import com.vaadin.data.provider.ListDataProvider;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +15,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.boot.VaadinAutoConfiguration;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.assertj.core.api.BDDAssertions.then;
 
@@ -40,7 +45,12 @@ public class VaadinUITests {
         vaadinUI.init(this.vaadinRequest);
 
         then(vaadinUI.grid.getColumns()).hasSize(3);
-        then(vaadinUI.grid.getContainerDataSource().getItemIds()).hasSize(customerCount);
+        then(getCustomersInGrid()).hasSize(customerCount);
+    }
+
+    private List<Customer> getCustomersInGrid() {
+        ListDataProvider<Customer> ldp = (ListDataProvider) vaadinUI.grid.getDataProvider();
+        return new ArrayList<>(ldp.getItems());
     }
 
     @Test
@@ -51,10 +61,12 @@ public class VaadinUITests {
 
         this.editor.save.click();
 
-        then(vaadinUI.grid.getContainerDataSource().getItemIds()).hasSize(initialCustomerCount + 1);
-        then((Customer) vaadinUI.grid.getContainerDataSource().lastItemId())
+        then(getCustomersInGrid()).hasSize(initialCustomerCount + 1);
+
+        then(getCustomersInGrid().get(getCustomersInGrid().size() -1))
                 .extracting("firstName", "lastName")
                 .containsExactly("Marcin", "Grzejszczak");
+
     }
 
     @Test
@@ -64,8 +76,8 @@ public class VaadinUITests {
 
         vaadinUI.listCustomers("Long");
 
-        then(vaadinUI.grid.getContainerDataSource().getItemIds()).hasSize(1);
-        then((Customer) vaadinUI.grid.getContainerDataSource().lastItemId())
+        then(getCustomersInGrid()).hasSize(1);
+        then(getCustomersInGrid().get(getCustomersInGrid().size() -1))
                 .extracting("firstName", "lastName")
                 .containsExactly("Josh", "Long");
     }
@@ -80,9 +92,8 @@ public class VaadinUITests {
     @Test
     public void shouldMakeEditorVisible() {
         this.vaadinUI.init(this.vaadinRequest);
-        Object itemId = this.vaadinUI.grid.getContainerDataSource().getItemIds().iterator().next();
-
-        this.vaadinUI.grid.select(itemId);
+        Customer first = getCustomersInGrid().get(0);
+        this.vaadinUI.grid.select(first);
 
         then(this.editor.isVisible()).isTrue();
     }

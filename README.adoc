@@ -96,7 +96,7 @@ public class VaadinUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
-	    setContent(new Button("Click me", e->Notification.show("Hello Spring+Vaadin user!")));
+	    setContent(new Button("Click me", e -> Notification.show("Hello Spring+Vaadin user!")));
     }
 }
 ----
@@ -108,12 +108,12 @@ For a nice layout, use the`Grid` component. The list of entities from a construc
 [source,java]
 ----
 CustomerRepository repo;
-Grid grid;
+Grid<Customer> grid;
 
 @Autowired
 public VaadinUI(CustomerRepository repo) {
     this.repo = repo;
-    this.grid = new Grid();
+    this.grid = new Grid<>(Customer.class);
 }
 
 @Override
@@ -123,14 +123,13 @@ protected void init(VaadinRequest request) {
 }
 
 private void listCustomers() {
-    grid.setContainerDataSource(
-            new BeanItemContainer(Customer.class, repo.findAll()));
+    grid.setItems(repo.findAll());
 }
 ----
 
-NOTE: If you have large tables and lots of concurrent users, you most likely don't want to bind the whole dataset to your UI components. 
+NOTE: If you have large tables and lots of concurrent users, you most likely don't want to bind the whole dataset to your UI components.
 
-Although many Vaadin components lazy load the data from the server to the browser, this solution above keeps the whole list of data in the server memory. To save some memory, you could show only the topmost results, use paging or provide a lazy loading solution for example by using Vaadin add-ons such as https://vaadin.com/directory#!addon/viritin[Viritin] or https://vaadin.com/directory#!addon/lazy-query-container[LazyQueryContainer]. You can find these and hundreds of others in the https://vaadin.com/directory[Vaadin Directory] of add-ons.
+Although many Vaadin components lazy load the data from the server to the browser, this solution above keeps the whole list of data in the server memory. To save some memory, you could show only the topmost results, use paging or provide a lazy loading data provider using set `setDataProvider(FetchItemsCallback<T>, SerializableSupplier<Integer>)` method.
 
 == Filtering the data
 
@@ -141,15 +140,16 @@ Before the large data set becomes a problem to your server, it will cause a head
 include::complete/src/main/java/hello/VaadinUI.java[tag=listCustomers]
 ----
 
-NOTE: This is where Spring Data's declaritive queries come in real handy. Writing `findByLastNameStartsWithIgnoringCase` is a single line definition in `CustomerRepository`.
+NOTE: This is where Spring Data's declarative queries come in real handy. Writing `findByLastNameStartsWithIgnoringCase` is a single line definition in `CustomerRepository`.
 
-Hook a listener to the `TextField` commponent and plug its value into that filter method. The `TextChangeListener` is called lazily when the text is changed in the field.
+Hook a listener to the `TextField` component and plug its value into that filter method. The `TextChangeListener` is called lazily when the text is changed in the field.
 
 [source,java]
 ----
 TextField filter = new TextField();
-filter.setInputPrompt("Filter by last name");
-filter.addTextChangeListener(e -> listCustomers(e.getText()));
+filter.setPlaceholder("Filter by last name");
+filter.setValueChangeMode(ValueChangeMode.LAZY);
+filter.addValueChangeListener(e -> listCustomers(e.getValue()));
 VerticalLayout mainLayout = new VerticalLayout(filter, grid);
 setContent(mainLayout);
 ----
@@ -181,5 +181,3 @@ include::complete/src/main/java/hello/VaadinUI.java[]
 Congratulations! You've written a full featured CRUD UI application using Spring Data JPA for persistence. And you did it without exposing any REST services or having to write a single line of JavaScript or HTML.
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
-
-
