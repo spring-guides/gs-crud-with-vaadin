@@ -1,8 +1,8 @@
 package hello;
 
-import com.vaadin.data.Binder;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.vaadin.data.Binder;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.SpringComponent;
@@ -14,9 +14,9 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
- * A simple example to introduce building forms. As your real application is
- * probably much more complicated than this example, you could re-use this form in
- * multiple places. This example component is only used in VaadinUI.
+ * A simple example to introduce building forms. As your real application is probably much
+ * more complicated than this example, you could re-use this form in multiple places. This
+ * example component is only used in VaadinUI.
  * <p>
  * In a real world application you'll most likely using a common super class for all your
  * forms - less code, better UX. See e.g. AbstractForm in Viritin
@@ -73,7 +73,7 @@ public class CustomerEditor extends VerticalLayout {
 	}
 
 	public final void editCustomer(Customer c) {
-		if(c == null) {
+		if (c == null) {
 			setVisible(false);
 			return;
 		}
