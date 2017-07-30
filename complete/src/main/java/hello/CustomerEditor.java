@@ -63,7 +63,6 @@ public class CustomerEditor extends VerticalLayout {
 		// wire action buttons to save, delete and reset
 		save.addClickListener(e -> repository.save(customer));
 		delete.addClickListener(e -> repository.delete(customer));
-		cancel.addClickListener(e -> editCustomer(customer));
 		setVisible(false);
 	}
 
@@ -105,6 +104,7 @@ public class CustomerEditor extends VerticalLayout {
 		// is clicked
 		save.addClickListener(e -> h.onChange());
 		delete.addClickListener(e -> h.onChange());
+		cancel.addClickListener(e -> h.onChange());
 	}
 
 }
