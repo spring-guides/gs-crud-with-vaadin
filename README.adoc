@@ -180,4 +180,15 @@ include::complete/src/main/java/hello/VaadinUI.java[]
 
 Congratulations! You've written a full featured CRUD UI application using Spring Data JPA for persistence. And you did it without exposing any REST services or having to write a single line of JavaScript or HTML.
 
+== See Also
+
+The following guides may also be helpful:
+
+* https://spring.io/guides/gs/spring-boot/[Building an Application with Spring Boot]
+* https://spring.io/guides/gs/accessing-data-jpa/[Accessing Data with JPA]
+* https://spring.io/guides/gs/accessing-data-mongodb/[Accessing Data with MongoDB]
+* https://spring.io/guides/gs/accessing-data-gemfire/[Accessing Data with GemFire]
+* https://spring.io/guides/gs/accessing-data-neo4j/[Accessing Data with Neo4j]
+* https://spring.io/guides/gs/accessing-data-mysql/[Accessing data with MySQL]
+
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
