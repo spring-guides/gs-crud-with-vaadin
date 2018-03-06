@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.data.Binder;
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Button;
@@ -38,9 +38,9 @@ public class CustomerEditor extends VerticalLayout {
 	TextField lastName = new TextField("Last name");
 
 	/* Action buttons */
-	Button save = new Button("Save", FontAwesome.SAVE);
+	Button save = new Button("Save", VaadinIcons.CHECK);
 	Button cancel = new Button("Cancel");
-	Button delete = new Button("Delete", FontAwesome.TRASH_O);
+	Button delete = new Button("Delete", VaadinIcons.TRASH);
 	CssLayout actions = new CssLayout(save, cancel, delete);
 
 	Binder<Customer> binder = new Binder<>(Customer.class);
