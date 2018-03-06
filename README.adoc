@@ -83,7 +83,6 @@ The UI class is the entry point for Vaadin's UI logic. In Spring Boot applicatio
 ----
 package hello;
 
-import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.Button;
@@ -91,7 +90,6 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 
 @SpringUI
-@Theme("valo")
 public class VaadinUI extends UI {
 
     @Override
@@ -107,23 +105,26 @@ For a nice layout, use the`Grid` component. The list of entities from a construc
 
 [source,java]
 ----
-CustomerRepository repo;
-Grid<Customer> grid;
+public class VaadinUI extends UI {
 
-@Autowired
-public VaadinUI(CustomerRepository repo) {
-    this.repo = repo;
-    this.grid = new Grid<>(Customer.class);
-}
+    private final CustomerRepository repo;
+    final Grid<Customer> grid;
 
-@Override
-protected void init(VaadinRequest request) {
-    setContent(grid);
-    listCustomers();
-}
+    public VaadinUI(CustomerRepository repo) {
+        this.repo = repo;
+        this.grid = new Grid<>(Customer.class);
+    }
 
-private void listCustomers() {
-    grid.setItems(repo.findAll());
+    @Override
+    protected void init(VaadinRequest request) {
+        setContent(grid);
+        listCustomers();
+    }
+
+    private void listCustomers() {
+        grid.setItems(repo.findAll());
+    }
+
 }
 ----
 

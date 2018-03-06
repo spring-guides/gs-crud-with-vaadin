@@ -1,6 +1,5 @@
 package hello;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
 import com.vaadin.server.FontAwesome;
@@ -27,7 +26,6 @@ public class VaadinUI extends UI {
 
 	private final Button addNewBtn;
 
-	@Autowired
 	public VaadinUI(CustomerRepository repo, CustomerEditor editor) {
 		this.repo = repo;
 		this.editor = editor;

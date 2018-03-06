@@ -22,7 +22,7 @@ public class CustomerEditorTests {
 	@Test
 	public void shouldStoreCustomerInRepoWhenEditorSaveClicked() {
 		emptyCustomerWasSetToForm();
-		
+
 		this.editor.firstName.setValue(FIRST_NAME);
 		this.editor.lastName.setValue(LAST_NAME);
 
