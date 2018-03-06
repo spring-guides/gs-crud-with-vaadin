@@ -10,7 +10,6 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
-import org.springframework.data.domain.Example;
 
 /**
  * A simple example to introduce building forms. As your real application is probably much
@@ -78,7 +77,7 @@ public class CustomerEditor extends VerticalLayout {
 		final boolean persisted = c.getId() != null;
 		if (persisted) {
 			// Find fresh entity for editing
-			customer = repository.findOne(Example.of(c)).get();;
+			customer = repository.findById(c.getId()).get();
 		}
 		else {
 			customer = c;
