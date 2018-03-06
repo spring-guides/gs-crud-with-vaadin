@@ -1,5 +1,7 @@
 package hello;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.vaadin.data.Binder;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
@@ -43,6 +45,7 @@ public class CustomerEditor extends VerticalLayout {
 
 	Binder<Customer> binder = new Binder<>(Customer.class);
 
+	@Autowired
 	public CustomerEditor(CustomerRepository repository) {
 		this.repository = repository;
 
