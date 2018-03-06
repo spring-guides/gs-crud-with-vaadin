@@ -1,15 +1,14 @@
 package hello;
 
-import org.hamcrest.Description;
-import org.hamcrest.TypeSafeMatcher;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.BDDMockito.then;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import static org.mockito.BDDMockito.*;
-import static org.mockito.Matchers.argThat;
+import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CustomerEditorTests {
@@ -22,9 +21,10 @@ public class CustomerEditorTests {
 
 	@Test
 	public void shouldStoreCustomerInRepoWhenEditorSaveClicked() {
+		emptyCustomerWasSetToForm();
+		
 		this.editor.firstName.setValue(FIRST_NAME);
 		this.editor.lastName.setValue(LAST_NAME);
-		customerDataWasFilled();
 
 		this.editor.save.click();
 
@@ -33,8 +33,6 @@ public class CustomerEditorTests {
 
 	@Test
 	public void shouldDeleteCustomerFromRepoWhenEditorDeleteClicked() {
-		this.editor.firstName.setValue(FIRST_NAME);
-		this.editor.lastName.setValue(LAST_NAME);
 		customerDataWasFilled();
 
 		editor.delete.click();
@@ -42,20 +40,15 @@ public class CustomerEditorTests {
 		then(this.customerRepository).should().delete(argThat(customerMatchesEditorFields()));
 	}
 
+	private void emptyCustomerWasSetToForm() {
+		this.editor.editCustomer(new Customer());
+	}
 	private void customerDataWasFilled() {
 		this.editor.editCustomer(new Customer(FIRST_NAME, LAST_NAME));
 	}
 
-	private TypeSafeMatcher<Customer> customerMatchesEditorFields() {
-		return new TypeSafeMatcher<Customer>() {
-			@Override
-			public void describeTo(Description description) {}
-
-			@Override
-			protected boolean matchesSafely(Customer item) {
-				return FIRST_NAME.equals(item.getFirstName()) && LAST_NAME.equals(item.getLastName());
-			}
-		};
+	private ArgumentMatcher<Customer> customerMatchesEditorFields() {
+		return customer -> FIRST_NAME.equals(customer.getFirstName()) && LAST_NAME.equals(customer.getLastName());
 	}
 
 }
