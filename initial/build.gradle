@@ -20,7 +20,7 @@ bootJar {
 
 repositories {
     mavenCentral()
-    maven { url "https://repository.jboss.org/nexus/content/repositories/releases" }
+    maven { url "https://maven.vaadin.com/vaadin-addons" }
 }
 
 sourceCompatibility = 1.8

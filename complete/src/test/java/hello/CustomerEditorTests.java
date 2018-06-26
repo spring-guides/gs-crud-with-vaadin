@@ -3,12 +3,15 @@ package hello;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.then;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import javax.annotation.PostConstruct;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CustomerEditorTests {
@@ -18,6 +21,12 @@ public class CustomerEditorTests {
 
 	@Mock CustomerRepository customerRepository;
 	@InjectMocks CustomerEditor editor;
+	@Mock CustomerEditor.ChangeHandler changeHandler;
+
+	@Before
+	public void init() {
+		editor.setChangeHandler(changeHandler);
+	}
 
 	@Test
 	public void shouldStoreCustomerInRepoWhenEditorSaveClicked() {
@@ -26,7 +35,7 @@ public class CustomerEditorTests {
 		this.editor.firstName.setValue(FIRST_NAME);
 		this.editor.lastName.setValue(LAST_NAME);
 
-		this.editor.save.click();
+		this.editor.save();
 
 		then(this.customerRepository).should().save(argThat(customerMatchesEditorFields()));
 	}
@@ -35,7 +44,7 @@ public class CustomerEditorTests {
 	public void shouldDeleteCustomerFromRepoWhenEditorDeleteClicked() {
 		customerDataWasFilled();
 
-		editor.delete.click();
+		editor.delete();
 
 		then(this.customerRepository).should().delete(argThat(customerMatchesEditorFields()));
 	}

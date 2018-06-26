@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import com.vaadin.flow.data.provider.ListDataProvider;
+import com.vaadin.flow.server.VaadinRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,17 +15,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.BDDAssertions.*;
 
-import com.vaadin.data.provider.ListDataProvider;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.spring.boot.VaadinAutoConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = VaadinUITests.Config.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class VaadinUITests {
+@SpringBootTest(classes = MainViewTests.Config.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
+public class MainViewTests {
 
 	@Autowired CustomerRepository repository;
 
@@ -31,36 +30,34 @@ public class VaadinUITests {
 
 	CustomerEditor editor;
 
-	VaadinUI vaadinUI;
+	MainView mainView;
 
 	@Before
 	public void setup() {
 		this.editor = new CustomerEditor(this.repository);
-		this.vaadinUI = new VaadinUI(this.repository, editor);
+		this.mainView = new MainView(this.repository, editor);
 	}
 
 	@Test
 	public void shouldInitializeTheGridWithCustomerRepositoryData() {
 		int customerCount = (int) this.repository.count();
 
-		vaadinUI.init(this.vaadinRequest);
-
-		then(vaadinUI.grid.getColumns()).hasSize(3);
+		then(mainView.grid.getColumns()).hasSize(3);
 		then(getCustomersInGrid()).hasSize(customerCount);
 	}
 
 	private List<Customer> getCustomersInGrid() {
-		ListDataProvider<Customer> ldp = (ListDataProvider) vaadinUI.grid.getDataProvider();
+		ListDataProvider<Customer> ldp = (ListDataProvider) mainView.grid.getDataProvider();
 		return new ArrayList<>(ldp.getItems());
 	}
 
 	@Test
 	public void shouldFillOutTheGridWithNewData() {
 		int initialCustomerCount = (int) this.repository.count();
-		this.vaadinUI.init(this.vaadinRequest);
+
 		customerDataWasFilled(editor, "Marcin", "Grzejszczak");
 
-		this.editor.save.click();
+		this.editor.save();
 
 		then(getCustomersInGrid()).hasSize(initialCustomerCount + 1);
 
@@ -72,10 +69,10 @@ public class VaadinUITests {
 
 	@Test
 	public void shouldFilterOutTheGridWithTheProvidedLastName() {
-		this.vaadinUI.init(this.vaadinRequest);
+
 		this.repository.save(new Customer("Josh", "Long"));
 
-		vaadinUI.listCustomers("Long");
+		mainView.listCustomers("Long");
 
 		then(getCustomersInGrid()).hasSize(1);
 		then(getCustomersInGrid().get(getCustomersInGrid().size() - 1))
@@ -85,16 +82,14 @@ public class VaadinUITests {
 
 	@Test
 	public void shouldInitializeWithInvisibleEditor() {
-		this.vaadinUI.init(this.vaadinRequest);
 
 		then(this.editor.isVisible()).isFalse();
 	}
 
 	@Test
 	public void shouldMakeEditorVisible() {
-		this.vaadinUI.init(this.vaadinRequest);
 		Customer first = getCustomersInGrid().get(0);
-		this.vaadinUI.grid.select(first);
+		this.mainView.grid.select(first);
 
 		then(this.editor.isVisible()).isTrue();
 	}
@@ -107,7 +102,7 @@ public class VaadinUITests {
 	}
 
 	@Configuration
-	@EnableAutoConfiguration(exclude = VaadinAutoConfiguration.class)
+	@EnableAutoConfiguration(exclude = com.vaadin.flow.spring.SpringBootAutoConfiguration.class)
 	static class Config {
 
 		@Autowired

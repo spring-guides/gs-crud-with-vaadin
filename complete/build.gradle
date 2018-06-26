@@ -21,8 +21,7 @@ bootJar {
 
 repositories {
     mavenCentral()
-    maven { url "https://repository.jboss.org/nexus/content/repositories/releases" }
-    maven { url "http://oss.sonatype.org/content/repositories/vaadin-snapshots/" }
+    maven { url "https://maven.vaadin.com/vaadin-addons" }
 }
 
 sourceCompatibility = 1.8
@@ -30,7 +29,7 @@ targetCompatibility = 1.8
 
 dependencyManagement {
   imports {
-    mavenBom 'com.vaadin:vaadin-bom:8.0.0'
+    mavenBom 'com.vaadin:vaadin-bom:10.0.1'
   }
 }
 
