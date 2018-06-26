@@ -71,62 +71,57 @@ include::complete/pom.xml[tag=bom]
 
 Gradle doesn't support "BOMs" by default, but there is a handy https://plugins.gradle.org/plugin/io.spring.dependency-management[plugin for that]. Check out the https://github.com/spring-guides/gs-crud-with-vaadin/blob/master/complete/build.gradle[build.gradle build file for an example on how to accomplish the same thing].
 
-== Define the UI class
+== Define the MainView class
 
-The UI class is the entry point for Vaadin's UI logic. In Spring Boot applications you just need to annotate it with `@SpringUI` and it will be automatically picked up by Spring. A simple "hello world" could look like this:
+The MainView class is the entry point for Vaadin's UI logic. In Spring Boot applications you just need to annotate it with `@Route` and it will be automatically picked up by Spring and shown at the root of your web app. You can customize the URL where the view is shown by giving a parameter to the Route annotation. A simple "hello world" could look like this:
 
 [source,java]
 ----
 package hello;
 
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.spring.annotation.SpringUI;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.UI;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.Route;
 
-@SpringUI
-public class VaadinUI extends UI {
+@Route
+public class MainView extends VerticalLayout {
 
-    @Override
-    protected void init(VaadinRequest request) {
-	    setContent(new Button("Click me", e -> Notification.show("Hello Spring+Vaadin user!")));
-    }
+	public MainView() {
+		add(new Button("Click me", e -> Notification.show("Hello Spring+Vaadin user!")));
+	}
 }
 ----
 
 == List entities in a data grid
 
-For a nice layout, use the`Grid` component. The list of entities from a constructor-injected `CustomerRepository` is simply wrapped into a https://vaadin.com/book/-/page/datamodel.container.html[BeanItemContainer] that will provide the data for the Grid component. The body of your `VaadinUI` would expand like this:
+For a nice layout, use the `Grid` component. The list of entities from a constructor-injected `CustomerRepository` can simply be passed to the Grid using the setItems method. The body of your `MainView` would expand like this:
 
 [source,java]
 ----
-public class VaadinUI extends UI {
+@Route
+public class MainView extends VerticalLayout {
 
-    private final CustomerRepository repo;
-    final Grid<Customer> grid;
+	private final CustomerRepository repo;
+	final Grid<Customer> grid;
 
-    public VaadinUI(CustomerRepository repo) {
-        this.repo = repo;
-        this.grid = new Grid<>(Customer.class);
-    }
+	public MainView(CustomerRepository repo) {
+		this.repo = repo;
+		this.grid = new Grid<>(Customer.class);
+		add(grid);
+		listCustomers();
+	}
 
-    @Override
-    protected void init(VaadinRequest request) {
-        setContent(grid);
-        listCustomers();
-    }
-
-    private void listCustomers() {
-        grid.setItems(repo.findAll());
-    }
+	private void listCustomers() {
+		grid.setItems(repo.findAll());
+	}
 
 }
 ----
 
 NOTE: If you have large tables and lots of concurrent users, you most likely don't want to bind the whole dataset to your UI components.
 
-Although many Vaadin components lazy load the data from the server to the browser, this solution above keeps the whole list of data in the server memory. To save some memory, you could show only the topmost results, use paging or provide a lazy loading data provider using set `setDataProvider(FetchItemsCallback<T>, SerializableSupplier<Integer>)` method.
+Although Vaadin Grid lazy load the data from the server to the browser, this solution above keeps the whole list of data in the server memory. To save some memory, you could show only the topmost results, use paging or provide a lazy loading data provider using the `setDataProvider(DataProvider)` method.
 
 == Filtering the data
 
@@ -134,21 +129,20 @@ Before the large data set becomes a problem to your server, it will cause a head
 
 [source,java,indent=0]
 ----
-include::complete/src/main/java/hello/VaadinUI.java[tag=listCustomers]
+include::complete/src/main/java/hello/MainView.java[tag=listCustomers]
 ----
 
 NOTE: This is where Spring Data's declarative queries come in real handy. Writing `findByLastNameStartsWithIgnoringCase` is a single line definition in `CustomerRepository`.
 
-Hook a listener to the `TextField` component and plug its value into that filter method. The `TextChangeListener` is called lazily when the text is changed in the field.
+Hook a listener to the `TextField` component and plug its value into that filter method. The `ValueChangeListener` is called automatically during typing as we define the `ValueChangeMode.EAGER` to the filter text field.
 
 [source,java]
 ----
 TextField filter = new TextField();
 filter.setPlaceholder("Filter by last name");
-filter.setValueChangeMode(ValueChangeMode.LAZY);
+filter.setValueChangeMode(ValueChangeMode.EAGER);
 filter.addValueChangeListener(e -> listCustomers(e.getValue()));
-VerticalLayout mainLayout = new VerticalLayout(filter, grid);
-setContent(mainLayout);
+add(filter, grid);
 ----
 
 == Define the editor component
@@ -165,12 +159,12 @@ In a larger application you could then use this editor component in multiple pla
 
 == Wire the editor
 
-In the previous steps you have already seen some basics of component-based programming. Using a `Button` and selection listener to `Grid`, you can fully integrate our editor to the main UI. The final version of the `VaadinUI` class looks like this:
+In the previous steps you have already seen some basics of component-based programming. Using a `Button` and selection listener to `Grid`, you can fully integrate our editor to the main view. The final version of the `MainView` class looks like this:
 
-`src/main/java/hello/VaadinUI.java`
+`src/main/java/hello/MainView.java`
 [source,java]
 ----
-include::complete/src/main/java/hello/VaadinUI.java[]
+include::complete/src/main/java/hello/MainView.java[]
 ----
 
 == Summary
