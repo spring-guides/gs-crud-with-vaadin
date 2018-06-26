@@ -1,20 +1,18 @@
 package hello;
 
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.Route;
+import com.vaadin.flow.spring.annotation.UIScope;
 import org.springframework.util.StringUtils;
 
-import com.vaadin.server.FontAwesome;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.shared.ui.ValueChangeMode;
-import com.vaadin.spring.annotation.SpringUI;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Grid;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-
-@SpringUI
-public class VaadinUI extends UI {
+@Route
+public class MainView extends VerticalLayout {
 
 	private final CustomerRepository repo;
 
@@ -26,30 +24,27 @@ public class VaadinUI extends UI {
 
 	private final Button addNewBtn;
 
-	public VaadinUI(CustomerRepository repo, CustomerEditor editor) {
+	public MainView(CustomerRepository repo, CustomerEditor editor) {
 		this.repo = repo;
 		this.editor = editor;
 		this.grid = new Grid<>(Customer.class);
 		this.filter = new TextField();
-		this.addNewBtn = new Button("New customer", FontAwesome.PLUS);
-	}
+		this.addNewBtn = new Button("New customer", VaadinIcon.PLUS.create());
 
-	@Override
-	protected void init(VaadinRequest request) {
 		// build layout
 		HorizontalLayout actions = new HorizontalLayout(filter, addNewBtn);
-		VerticalLayout mainLayout = new VerticalLayout(actions, grid, editor);
-		setContent(mainLayout);
+		add(actions, grid, editor);
 
-		grid.setHeight(300, Unit.PIXELS);
+		grid.setHeight("300px");
 		grid.setColumns("id", "firstName", "lastName");
+		grid.getColumnByKey("id").setWidth("50px").setFlexGrow(0);
 
 		filter.setPlaceholder("Filter by last name");
 
 		// Hook logic to components
 
 		// Replace listing with filtered content when user changes filter
-		filter.setValueChangeMode(ValueChangeMode.LAZY);
+		filter.setValueChangeMode(ValueChangeMode.EAGER);
 		filter.addValueChangeListener(e -> listCustomers(e.getValue()));
 
 		// Connect selected Customer to editor or hide if none is selected
