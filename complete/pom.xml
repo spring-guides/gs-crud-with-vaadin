@@ -16,6 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <vaadin.version>14.0.1</vaadin.version>
     </properties>
 
     <dependencies>
@@ -47,7 +48,7 @@
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-bom</artifactId>
-                <version>14.0.1</version>
+                <version>${vaadin.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
