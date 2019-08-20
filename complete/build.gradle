@@ -40,3 +40,7 @@ dependencies {
     testCompile("junit:junit")
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
+
+plugins {
+    id "com.vaadin:vaadin-maven-plugin" version "14.0.1"
+}
