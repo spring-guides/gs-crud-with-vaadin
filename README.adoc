@@ -16,6 +16,8 @@ You can start from two different parts, either by starting from the "initial" pr
 :java_version: 1.8
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
 
+https://nodejs.org/en/[NodeJS 10.x or later] is also needed by Vaadin to generate the front-end resource bundle. You can install NodeJS locally to your current project using Maven command: `mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v10.16.3"`
+
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
 
 
