@@ -1,42 +1,30 @@
-buildscript {
-    repositories {
-        jcenter()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.1.RELEASE")
-    }
+plugins {
+	id 'org.springframework.boot' version '2.1.8.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'java'
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-
-bootJar {
-    baseName = 'gs-crud-with-vaadin'
-    version =  '0.1.0'
-}
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
 
 repositories {
-    mavenCentral()
-    maven { url "https://maven.vaadin.com/vaadin-addons" }
+	mavenCentral()
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-dependencyManagement {
-  imports {
-    mavenBom 'com.vaadin:vaadin-bom:14.1.3'
-  }
+ext {
+	set('vaadinVersion', "14.0.5")
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile("com.vaadin:vaadin-spring-boot-starter")
-    compile("com.h2database:h2")
-    testCompile("junit:junit")
-    testCompile("org.springframework.boot:spring-boot-starter-test")
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'com.vaadin:vaadin-spring-boot-starter'
+	runtimeOnly 'com.h2database:h2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
+	}
 }

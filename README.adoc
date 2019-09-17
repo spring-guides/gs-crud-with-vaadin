@@ -3,103 +3,169 @@
 :source-highlighter: prettify
 :project_id: gs-crud-with-vaadin
 
-This guide walks you through the process of building an application that uses a https://vaadin.com[Vaadin based UI] on a Spring Data JPA based backend.
+This guide walks you through the process of building an application that uses a
+https://vaadin.com[Vaadin-based UI] on a Spring Data JPA based backend.
 
-== What you'll build
+== What You Will build
 
-You'll build a Vaadin UI for a simple JPA repository. What you'll get is an app with full CRUD (Create, Read, Update, Delete) functionality and a filtering example that uses a custom repository method.
+You will build a Vaadin UI for a simple JPA repository. What you will get is an
+application with full CRUD (Create, Read, Update, and Delete) functionality and a
+filtering example that uses a custom repository method.
 
-You can start from two different parts, either by starting from the "initial" project you have set up or from a fresh start. The differences are discussed below.
+You can follow either of two different paths:
 
-== What you'll need
+* Starting from the `initial` project that is already in the project.
+* Making a fresh start.
+
+The differences are discussed later in this document.
+
+== What You Need
 
 :java_version: 1.8
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
 
-https://nodejs.org/en/[NodeJS 10.x or later] is also needed by Vaadin to generate the front-end resource bundle. You can install NodeJS locally to your current project using Maven command: `mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v10.16.3"`
+Vaadin needs https://nodejs.org/en/[NodeJS 10.x or later] to generate the front-end
+resource bundle. You can install NodeJS locally to your current project by using the
+following Maven command:
 
+====
+[source,bash]
+----
+mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v10.16.3"
+----
+====
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
 
+== Starting with Spring Initializr
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-gradle.adoc[]
+For all Spring applications, you should start with the https://start.spring.io[Spring
+Initializr]. The Initializr offers a fast way to pull in all the dependencies you need for
+an application and does a lot of the set up for you. This example needs only the Spring
+Data JPA and H2 dependencies. (You will add the Vaadin dependency later.) The following
+image shows the Initializr set up for this sample project:
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-maven.adoc[]
+image::images/initializr.png[]
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-sts.adoc[]
+NOTE: The preceding image shows the Initializr with Maven chosen as the build tool. You
+can also use Gradle. It also shows values of `com.example` and `crud-with-vaadin` as the
+Group and Artifact, respectively. You will use those values throughout the rest of this
+sample.
 
+The following listing shows the `pom.xml` file that is created when you choose Maven:
+
+====
+[src,xml]
+----
+include::initial/pom.xml[]
+----
+====
+
+The following listing shows the `build.gradle` file that is created when you choose Gradle:
+
+====
+[src,java]
+----
+include::initial/build.gradle[]
+----
+====
 
 [[initial]]
-== Create the backend services
+== Create the Backend Services
 
-This example is a continuation from link:/gs/accessing-data-jpa[Accessing Data with JPA]. The only difference is that the entity class has getters and setters and the custom search method in the repository is a bit more graceful for end users. You don't have to read that guide to walk through this one, but you can if you wish.
+This guide is a continuation from link:/gs/accessing-data-jpa[Accessing Data with JPA].
+The only differences are that the entity class has getters and setters and the custom
+search method in the repository is a bit more graceful for end users. You need not read
+that guide to walk through this one, but you can if you wish.
 
-If you started with a fresh project, then add the following entity and repository objects and you're good to go. In case you started with from the "initial" step, these are already available for you.
+If you started with a fresh project, you need to add entity and repository objects. If you
+started from the `initial` project, these object already exist.
 
-`src/main/java/hello/Customer.java`
-[source,java,tabsize=2]
+The following listing (from `src/main/java/com/example/crudwithvaadin/Customer.java`)
+defines the customer entity:
+
+====
+[source,java]
 ----
-include::complete/src/main/java/hello/Customer.java[]
+include::complete/src/main/java/com/example/crudwithvaadin/Customer.java[]
 ----
+====
 
-`src/main/java/hello/CustomerRepository.java`
-[source,java,tabsize=2]
+The following listing (from
+`src/main/java/com/example/crudwithvaadin/CustomerRepository.java`) defines the customer
+repository:
+
+====
+[source,java]
 ----
-include::complete/src/main/java/hello/CustomerRepository.java[]
+include::complete/src/main/java/com/example/crudwithvaadin/CustomerRepository.java[]
 ----
+====
 
-You can leave the Spring Boot based application intact as it will fill our DB with some example data.
+The following listing (from
+`src/main/java/com/example/crudwithvaadin/CrudWithVaadinApplication.java`) shows the
+application class, which creates some data for you:
 
-`src/main/java/hello/Application.java`
-[source,java,tabsize=2]
+====
+[source,java]
 ----
-include::complete/src/main/java/hello/Application.java[]
+include::complete/src/main/java/com/example/crudwithvaadin/CrudWithVaadinApplication.java[]
 ----
+====
 
-== Vaadin dependencies
+== Vaadin Dependencies
 
-If you checked out the "initial" state project, you have all necessary dependencies already set up, but lets look at what you need to do to add Vaadin support to a fresh Spring project. Vaadin Spring integration contains a Spring boot starter dependency collection, so all you must do is to add this Maven snippet or a similar Gradle configuration:
+If you checked out the `initial` project, you have all necessary dependencies already set
+up. However, the rest of this section describes how to add Vaadin support to a fresh
+Spring project. Spring's Vaadin integration contains a Spring Boot starter dependency
+collection, so you need add only the following Maven snippet (or a corresponding Gradle
+configuration):
 
+====
 [source,xml,indent=0]
 ----
 include::complete/pom.xml[tag=starter]
 ----
+====
 
-The example uses a newer version of Vaadin, than the default one brought in by the starter module. To use a newer version, define the Vaadin Bill of Materials (BOM) like this:
+The example uses a newer version of Vaadin than the default one brought in by the starter
+module. To use a newer version, define the Vaadin Bill of Materials (BOM) as follows:
 
+====
 [source,xml,indent=0]
 ----
 include::complete/pom.xml[tag=bom]
 ----
+====
 
-Gradle doesn't support "BOMs" by default, but there is a handy https://plugins.gradle.org/plugin/io.spring.dependency-management[plugin for that]. Check out the https://github.com/spring-guides/gs-crud-with-vaadin/blob/master/complete/build.gradle[build.gradle build file for an example on how to accomplish the same thing].
+TIP: By default, Gradle does not support BOMs, but there is a handy
+https://plugins.gradle.org/plugin/io.spring.dependency-management[plugin for that]. Check out the
+https://github.com/spring-guides/gs-crud-with-vaadin/blob/master/complete/build.gradle[`build.gradle` build file for an example of how to accomplish the same thing].
 
-== Define the MainView class
+== Define the Main View class
 
-The MainView class is the entry point for Vaadin's UI logic. In Spring Boot applications you just need to annotate it with `@Route` and it will be automatically picked up by Spring and shown at the root of your web app. You can customize the URL where the view is shown by giving a parameter to the Route annotation. A simple "hello world" could look like this:
+The main view class (called `MainView` in this guide) is the entry point for Vaadin's UI
+logic. In Spring Boot applications, you need only annotate it with `@Route` and it is
+automatically picked up by Spring and shown at the root of your web application. You can
+customize the URL where the view is shown by giving a parameter to the `@Route`
+annotation. The following listing (from the `initial` project at
+`src/main/java/com/example/crudwithvaadin/MainView.java`) shows a simple "`Hello, World`"
+view:
 
-[source,java,tabsize=2]
+====
+[source,java]
 ----
-package hello;
-
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.Route;
-
-@Route
-public class MainView extends VerticalLayout {
-
-	public MainView() {
-		add(new Button("Click me", e -> Notification.show("Hello Spring+Vaadin user!")));
-	}
-}
+include::initial/src/main/java/com/example/crudwithvaadin/MainView.java[]
 ----
+====
 
-== List entities in a data grid
+== List Entities in a Data Grid
 
-For a nice layout, use the `Grid` component. The list of entities from a constructor-injected `CustomerRepository` can simply be passed to the Grid using the setItems method. The body of your `MainView` would expand like this:
+For a nice layout, you can use the `Grid` component. You can pass the list of entities
+from a constructor-injected `CustomerRepository` to the `Grid` by using the `setItems`
+method. The body of your `MainView` would then be as follows:
 
-[source,java,tabsize=2]
+====
+[source,java]
 ----
 @Route
 public class MainView extends VerticalLayout {
@@ -120,25 +186,42 @@ public class MainView extends VerticalLayout {
 
 }
 ----
+====
 
-NOTE: If you have large tables and lots of concurrent users, you most likely don't want to bind the whole dataset to your UI components.
+TIP: If you have large tables or lots of concurrent users, you most likely do not want
+to bind the whole dataset to your UI components.
++
+Although Vaadin Grid lazy loads the data from the server to the browser, the preceding
+approach keeps the whole list of data in the server memory. To save some memory, you could
+show only the topmost results by employing paging or providing a lazy loading data
+provider by using the `setDataProvider(DataProvider)` method.
 
-Although Vaadin Grid lazy load the data from the server to the browser, this solution above keeps the whole list of data in the server memory. To save some memory, you could show only the topmost results, use paging or provide a lazy loading data provider using the `setDataProvider(DataProvider)` method.
+== Filtering the Data
 
-== Filtering the data
+Before the large data set becomes a problem to your server, it is likely to cause a
+headache for your users as they try to find the relevant row to edit. You can use a
+`TextField` component to create a filter entry. To do so, first modify the
+`listCustomer()` method to support filtering. The following example (from the `complete`
+project in `src/main/java/com/example/crudwithvaadin/MainView.java`) shows how to do so:
 
-Before the large data set becomes a problem to your server, it will cause a headache for your users trying to find the relevant row he or she wants to edit. Use a `TextField` component to create a filter entry. First, modify the `listCustomer()` method to support filtering:
-
-[source,java,tabsize=2,indent=0]
+====
+[source,java,indent=0]
 ----
-include::complete/src/main/java/hello/MainView.java[tag=listCustomers]
+include::complete/src/main/java/com/example/crudwithvaadin/MainView.java[tag=listCustomers]
 ----
+====
 
-NOTE: This is where Spring Data's declarative queries come in real handy. Writing `findByLastNameStartsWithIgnoringCase` is a single line definition in `CustomerRepository`.
+NOTE: This is where Spring Data's declarative queries come in handy. Writing
+`findByLastNameStartsWithIgnoringCase` is a single line definition in the
+`CustomerRepository` interface.
 
-Hook a listener to the `TextField` component and plug its value into that filter method. The `ValueChangeListener` is called automatically during typing as we define the `ValueChangeMode.EAGER` to the filter text field.
+You can hook a listener to the `TextField` component and plug its value into that filter
+method. The `ValueChangeListener` is called automatically as a user types because you
+define the `ValueChangeMode.EAGER` on the filter text field. The following example shows
+how to set up such a listener:
 
-[source,java,tabsize=2]
+====
+[source,java]
 ----
 TextField filter = new TextField();
 filter.setPlaceholder("Filter by last name");
@@ -146,32 +229,48 @@ filter.setValueChangeMode(ValueChangeMode.EAGER);
 filter.addValueChangeListener(e -> listCustomers(e.getValue()));
 add(filter, grid);
 ----
+====
 
-== Define the editor component
+== Define the Editor Component
 
-As Vaadin UIs are just plain Java code, there is no excuse to not write re-usable code from the beginning. Define an editor component for your Customer entity. You'll make it a Spring-managed bean so you can directly inject the `CustomerRepository` to the editor and tackle the C, U, and D parts or our CRUD functionality.
+As Vaadin UIs are plain Java code, you can write re-usable code from the beginning. To do
+so, define an editor component for your `Customer` entity. You can make it be a
+Spring-managed bean so that you can directly inject the `CustomerRepository` into the
+editor and tackle the Create, Update, and Delete parts or your CRUD functionality. The
+following example (from `src/main/java/com/example/crudwithvaadin/CustomerEditor.java`)
+shows how to do so:
 
-`src/main/java/hello/CustomerEditor.java`
-[source,java,tabsize=2]
+====
+[source,java]
 ----
-include::complete/src/main/java/hello/CustomerEditor.java[]
+include::complete/src/main/java/com/example/crudwithvaadin/CustomerEditor.java[]
 ----
+====
 
-In a larger application you could then use this editor component in multiple places. Also note, that in large applications, you might want to apply some common patterns like MVP to structure your UI code (which is outside the scope of this guide).
+In a larger application, you could then use this editor component in multiple places. Also
+note that, in large applications, you might want to apply some common patterns (such as
+MVP) to structure your UI code.
 
-== Wire the editor
+== Wire the Editor
 
-In the previous steps you have already seen some basics of component-based programming. Using a `Button` and selection listener to `Grid`, you can fully integrate our editor to the main view. The final version of the `MainView` class looks like this:
+In the previous steps, you have already seen some basics of component-based programming.
+By using a `Button` and adding a selection listener to `Grid`, you can fully integrate
+your editor into the main view. The following listing (from
+`src/main/java/com/example/crudwithvaadin/MainView.java`) shows the final version of the
+`MainView` class:
 
-`src/main/java/hello/MainView.java`
-[source,java,tabsize=2]
+====
+[source,java]
 ----
-include::complete/src/main/java/hello/MainView.java[]
+include::complete/src/main/java/com/example/crudwithvaadin/MainView.java[]
 ----
+====
 
 == Summary
 
-Congratulations! You've written a full featured CRUD UI application using Spring Data JPA for persistence. And you did it without exposing any REST services or having to write a single line of JavaScript or HTML.
+Congratulations! You have written a full-featured CRUD UI application by using Spring Data
+JPA for persistence. And you did it without exposing any REST services or having to write
+a single line of JavaScript or HTML.
 
 == See Also
 

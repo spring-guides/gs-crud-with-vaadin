@@ -1,4 +1,4 @@
-package hello;
+package com.example.crudwithvaadin;
 
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.then;
