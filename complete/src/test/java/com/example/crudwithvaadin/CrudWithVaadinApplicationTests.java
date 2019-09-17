@@ -1,4 +1,4 @@
-package hello;
+package com.example.crudwithvaadin;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,8 +9,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.assertj.core.api.BDDAssertions.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-public class ApplicationTests {
+@SpringBootTest(classes = CrudWithVaadinApplication.class, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+public class CrudWithVaadinApplicationTests {
 
 	@Autowired
 	private CustomerRepository repository;

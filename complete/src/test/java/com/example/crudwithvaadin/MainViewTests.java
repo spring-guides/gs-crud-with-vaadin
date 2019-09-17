@@ -1,4 +1,4 @@
-package hello;
+package com.example.crudwithvaadin;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package hello;
+package com.example.crudwithvaadin;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyNotifier;

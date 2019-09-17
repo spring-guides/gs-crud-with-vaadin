@@ -1,4 +1,4 @@
-package hello;
+package com.example.crudwithvaadin;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
