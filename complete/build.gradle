@@ -29,7 +29,7 @@ targetCompatibility = 1.8
 
 dependencyManagement {
   imports {
-    mavenBom 'com.vaadin:vaadin-bom:14.0.4'
+    mavenBom 'com.vaadin:vaadin-bom:14.0.7'
   }
 }
 
