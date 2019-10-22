@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.1.8.RELEASE'
+	id 'org.springframework.boot' version '2.2.0.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
 }
@@ -10,21 +10,24 @@ sourceCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
-}
-
-ext {
-	set('vaadinVersion', "14.0.5")
-}
-
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'com.vaadin:vaadin-spring-boot-starter'
-	runtimeOnly 'com.h2database:h2'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	maven { url "https://maven.vaadin.com/vaadin-addons" }
 }
 
 dependencyManagement {
 	imports {
-		mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
+		mavenBom 'com.vaadin:vaadin-bom:14.1.3'
 	}
+}
+
+dependencies {
+	implementation 'com.vaadin:vaadin-spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	runtimeOnly 'com.h2database:h2'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+test {
+	useJUnitPlatform()
 }

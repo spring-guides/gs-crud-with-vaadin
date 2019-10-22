@@ -3,17 +3,17 @@ package com.example.crudwithvaadin;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.then;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.PostConstruct;
 
-@RunWith(MockitoJUnitRunner.class)
+@SpringBootTest
 public class CustomerEditorTests {
 
 	private static final String FIRST_NAME = "Marcin";
@@ -23,7 +23,7 @@ public class CustomerEditorTests {
 	@InjectMocks CustomerEditor editor;
 	@Mock CustomerEditor.ChangeHandler changeHandler;
 
-	@Before
+	@BeforeEach
 	public void init() {
 		editor.setChangeHandler(changeHandler);
 	}

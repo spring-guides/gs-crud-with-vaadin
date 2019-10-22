@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class CrudWithVaadinApplication {
 
-	private static final Logger log = LoggerFactory.getLogger(Application.class);
+	private static final Logger log = LoggerFactory.getLogger(CrudWithVaadinApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(CrudWithVaadinApplication.class);
