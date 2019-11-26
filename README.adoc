@@ -36,13 +36,13 @@ This example is a continuation from link:/gs/accessing-data-jpa[Accessing Data w
 If you started with a fresh project, then add the following entity and repository objects and you're good to go. In case you started with from the "initial" step, these are already available for you.
 
 `src/main/java/hello/Customer.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/Customer.java[]
 ----
 
 `src/main/java/hello/CustomerRepository.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/CustomerRepository.java[]
 ----
@@ -50,7 +50,7 @@ include::complete/src/main/java/hello/CustomerRepository.java[]
 You can leave the Spring Boot based application intact as it will fill our DB with some example data.
 
 `src/main/java/hello/Application.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/Application.java[]
 ----
@@ -77,7 +77,7 @@ Gradle doesn't support "BOMs" by default, but there is a handy https://plugins.g
 
 The MainView class is the entry point for Vaadin's UI logic. In Spring Boot applications you just need to annotate it with `@Route` and it will be automatically picked up by Spring and shown at the root of your web app. You can customize the URL where the view is shown by giving a parameter to the Route annotation. A simple "hello world" could look like this:
 
-[source,java]
+[source,java,tabsize=2]
 ----
 package hello;
 
@@ -99,7 +99,7 @@ public class MainView extends VerticalLayout {
 
 For a nice layout, use the `Grid` component. The list of entities from a constructor-injected `CustomerRepository` can simply be passed to the Grid using the setItems method. The body of your `MainView` would expand like this:
 
-[source,java]
+[source,java,tabsize=2]
 ----
 @Route
 public class MainView extends VerticalLayout {
@@ -129,7 +129,7 @@ Although Vaadin Grid lazy load the data from the server to the browser, this sol
 
 Before the large data set becomes a problem to your server, it will cause a headache for your users trying to find the relevant row he or she wants to edit. Use a `TextField` component to create a filter entry. First, modify the `listCustomer()` method to support filtering:
 
-[source,java,indent=0]
+[source,java,tabsize=2,indent=0]
 ----
 include::complete/src/main/java/hello/MainView.java[tag=listCustomers]
 ----
@@ -138,7 +138,7 @@ NOTE: This is where Spring Data's declarative queries come in real handy. Writin
 
 Hook a listener to the `TextField` component and plug its value into that filter method. The `ValueChangeListener` is called automatically during typing as we define the `ValueChangeMode.EAGER` to the filter text field.
 
-[source,java]
+[source,java,tabsize=2]
 ----
 TextField filter = new TextField();
 filter.setPlaceholder("Filter by last name");
@@ -152,7 +152,7 @@ add(filter, grid);
 As Vaadin UIs are just plain Java code, there is no excuse to not write re-usable code from the beginning. Define an editor component for your Customer entity. You'll make it a Spring-managed bean so you can directly inject the `CustomerRepository` to the editor and tackle the C, U, and D parts or our CRUD functionality.
 
 `src/main/java/hello/CustomerEditor.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/CustomerEditor.java[]
 ----
@@ -164,7 +164,7 @@ In a larger application you could then use this editor component in multiple pla
 In the previous steps you have already seen some basics of component-based programming. Using a `Button` and selection listener to `Grid`, you can fully integrate our editor to the main view. The final version of the `MainView` class looks like this:
 
 `src/main/java/hello/MainView.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/MainView.java[]
 ----
