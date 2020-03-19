@@ -74,7 +74,7 @@ include::initial/build.gradle[]
 [[initial]]
 == Create the Backend Services
 
-This guide is a continuation from link:/gs/accessing-data-jpa[Accessing Data with JPA].
+This guide is a continuation from https://spring.io/guides/gs/accessing-data-jpa[Accessing Data with JPA].
 The only differences are that the entity class has getters and setters and the custom
 search method in the repository is a bit more graceful for end users. You need not read
 that guide to walk through this one, but you can if you wish.
