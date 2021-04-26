@@ -22,7 +22,7 @@ The differences are discussed later in this document.
 == What You Need
 
 :java_version: 1.8
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/prereq_editor_jdk_buildtools.adoc[]
 
 Vaadin needs https://nodejs.org/en/[NodeJS 10.x or later] to generate the front-end
 resource bundle. You can install NodeJS locally to your current project by using the
@@ -35,7 +35,7 @@ mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeV
 ----
 ====
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/how_to_complete_this_guide.adoc[]
 
 [[scratch]]
 == Starting with Spring Initializr
@@ -147,7 +147,7 @@ include::complete/pom.xml[tag=bom]
 
 TIP: By default, Gradle does not support BOMs, but there is a handy
 https://plugins.gradle.org/plugin/io.spring.dependency-management[plugin for that]. Check out the
-https://github.com/spring-guides/gs-crud-with-vaadin/blob/master/complete/build.gradle[`build.gradle` build file for an example of how to accomplish the same thing].
+https://github.com/spring-guides/gs-crud-with-vaadin/blob/main/complete/build.gradle[`build.gradle` build file for an example of how to accomplish the same thing].
 
 == Define the Main View class
 
@@ -291,4 +291,4 @@ The following guides may also be helpful:
 * https://spring.io/guides/gs/accessing-data-neo4j/[Accessing Data with Neo4j]
 * https://spring.io/guides/gs/accessing-data-mysql/[Accessing data with MySQL]
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/footer.adoc[]
