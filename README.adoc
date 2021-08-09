@@ -24,16 +24,6 @@ The differences are discussed later in this document.
 :java_version: 1.8
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/prereq_editor_jdk_buildtools.adoc[]
 
-Vaadin needs https://nodejs.org/en/[NodeJS 10.x or later] to generate the front-end
-resource bundle. You can install NodeJS locally to your current project by using the
-following Maven command:
-
-====
-[source,bash]
-----
-mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v10.16.3"
-----
-====
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/how_to_complete_this_guide.adoc[]
 
