@@ -30,29 +30,20 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 [[scratch]]
 == Starting with Spring Initializr
 
-If you use Maven, visit the https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.4.3.RELEASE&packaging=jar&jvmVersion=11&groupId=com.example&artifactId=crud-with-vaadin&name=crud-with-vaadin&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.crud-with-vaadin&dependencies=data-jpa,h2[Spring Initializr] to generate a new project with the required dependencies (Spring Data JPA and H2 Database).
+To initialize the project:
 
-The following listing shows the `pom.xml` file that is created when you choose Maven:
-
-====
-[src,xml]
-----
-include::initial/pom.xml[]
-----
-====
-
-If you use Gradle, visit the https://start.spring.io/#!type=gradle-project&language=java&platformVersion=2.4.3.RELEASE&packaging=jar&jvmVersion=11&groupId=com.example&artifactId=crud-with-vaadin&name=crud-with-vaadin&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.crud-with-vaadin&dependencies=data-jpa,h2[Spring Initializr] to generate a new project with the required dependencies (Spring Data JPA and H2 Database).
-
-The following listing shows the `build.gradle` file that is created when you choose Gradle:
-
-====
-[src,java]
-----
-include::initial/build.gradle[]
-----
-====
+. Navigate to https://start.spring.io.
+This service pulls in all the dependencies you need for an application and does most of the setup for you.
+. Choose either Gradle or Maven and the language you want to use. This guide assumes that you chose Java.
+. Click *Dependencies* and select *Spring Data JPA* and *H2 Database*.
+. Click *Generate*.
+. Download the resulting ZIP file, which is an archive of a web application that is configured with your choices.
 
 NOTE: We add the Vaadin dependency later in the guide.
+
+NOTE: If your IDE has the Spring Initializr integration, you can complete this process from your IDE.
+
+NOTE: You can also fork the project from Github and open it in your IDE or other editor.
 
 === Manual Initialization (optional)
 
