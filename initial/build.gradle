@@ -15,7 +15,7 @@ repositories {
 
 dependencyManagement {
 	imports {
-		mavenBom 'com.vaadin:vaadin-bom:14.8.1'
+		mavenBom 'com.vaadin:vaadin-bom:14.8.2'
 	}
 }
 
