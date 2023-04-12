@@ -8,7 +8,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.spring.annotation.UIScope;
 import org.springframework.util.StringUtils;
 
 @Route
@@ -44,7 +43,7 @@ public class MainView extends VerticalLayout {
 		// Hook logic to components
 
 		// Replace listing with filtered content when user changes filter
-		filter.setValueChangeMode(ValueChangeMode.EAGER);
+		filter.setValueChangeMode(ValueChangeMode.LAZY);
 		filter.addValueChangeListener(e -> listCustomers(e.getValue()));
 
 		// Connect selected Customer to editor or hide if none is selected
@@ -67,11 +66,10 @@ public class MainView extends VerticalLayout {
 
 	// tag::listCustomers[]
 	void listCustomers(String filterText) {
-		if (StringUtils.isEmpty(filterText)) {
-			grid.setItems(repo.findAll());
-		}
-		else {
+		if (StringUtils.hasText(filterText)) {
 			grid.setItems(repo.findByLastNameStartsWithIgnoreCase(filterText));
+		} else {
+			grid.setItems(repo.findAll());
 		}
 	}
 	// end::listCustomers[]
