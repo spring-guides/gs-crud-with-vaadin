@@ -180,12 +180,10 @@ public class MainView extends VerticalLayout {
 ====
 
 TIP: If you have large tables or lots of concurrent users, you most likely do not want
-to bind the whole dataset to your UI components.
-+
+to bind the whole dataset to your UI components. +
 Although Vaadin Grid lazy loads the data from the server to the browser, the preceding
 approach keeps the whole list of data in the server memory. To save some memory, you could
-show only the topmost results by employing paging or providing a lazy loading data
-provider by using the `setDataProvider(DataProvider)` method.
+show only the topmost results by employing paging or using lazy loading, for examply using the `grid.setItems(VaadinSpringDataHelpers.fromPagingRepository(repo))` method.
 
 == Filtering the Data
 
