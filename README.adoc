@@ -135,10 +135,10 @@ https://github.com/spring-guides/gs-crud-with-vaadin/blob/main/complete/build.gr
 == Define the Main View class
 
 The main view class (called `MainView` in this guide) is the entry point for Vaadin's UI
-logic. In Spring Boot applications, you need only annotate it with `@Route` and it is
-automatically picked up by Spring and shown at the root of your web application. You can
-customize the URL where the view is shown by giving a parameter to the `@Route`
-annotation. The following listing (from the `initial` project at
+logic. In Spring Boot applications, if you annotate it with `@Route`, it is automatically
+picked up and shown at the root of your web application. You can customize the URL where
+the view is shown by giving a parameter to the `@Route` annotation. The following listing
+(from the `initial` project at
 `src/main/java/com/example/crudwithvaadin/MainView.java`) shows a simple "`Hello, World`"
 view:
 
