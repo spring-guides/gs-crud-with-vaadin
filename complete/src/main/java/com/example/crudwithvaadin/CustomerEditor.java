@@ -3,6 +3,7 @@ package com.example.crudwithvaadin;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyNotifier;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -36,7 +37,6 @@ public class CustomerEditor extends VerticalLayout implements KeyNotifier {
 	TextField lastName = new TextField("Last name");
 
 	/* Action buttons */
-	// TODO why more code?
 	Button save = new Button("Save", VaadinIcon.CHECK.create());
 	Button cancel = new Button("Cancel");
 	Button delete = new Button("Delete", VaadinIcon.TRASH.create());
@@ -57,8 +57,8 @@ public class CustomerEditor extends VerticalLayout implements KeyNotifier {
 		// Configure and style components
 		setSpacing(true);
 
-		save.getElement().getThemeList().add("primary");
-		delete.getElement().getThemeList().add("error");
+		save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+		delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
 		addKeyPressListener(Key.ENTER, e -> save());
 
@@ -91,6 +91,8 @@ public class CustomerEditor extends VerticalLayout implements KeyNotifier {
 		final boolean persisted = c.getId() != null;
 		if (persisted) {
 			// Find fresh entity for editing
+			// In a more complex app, you might want to load
+			// the entity/DTO with lazy loaded relations for editing
 			customer = repository.findById(c.getId()).get();
 		}
 		else {
