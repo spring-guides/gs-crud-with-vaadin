@@ -11,10 +11,10 @@ pipeline {
 	}
 
 	stages {
-		stage("test: baseline (jdk8)") {
+		stage("test: baseline (jdk17)") {
 			agent {
 				docker {
-					image 'adoptopenjdk/openjdk8:latest'
+					image 'harbor-repo.vmware.com/dockerhub-proxy-cache/library/eclipse-temurin:17.0.6_10-jdk-focal'
 					args '-v $HOME/.m2:/tmp/jenkins-home/.m2'
 				}
 			}
