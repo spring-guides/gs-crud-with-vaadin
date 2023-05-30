@@ -29,5 +29,5 @@ build/
 accessingdataneo4j.db
 dependency-reduced-pom.xml
 README.html
-initial/frontend/generated
-complete/frontend/generated
+initial/frontend/
+complete/frontend/
