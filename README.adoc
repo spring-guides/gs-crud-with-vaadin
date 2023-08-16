@@ -30,20 +30,7 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 [[scratch]]
 == Starting with Spring Initializr
 
-You can use this https://start.spring.io/#!type=maven-project&language=java&packaging=jar&jvmVersion=11&groupId=com.example&artifactId=crud-with-vaadin&name=crud-with-vaadin&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.crud-with-vaadin&dependencies=data-jpa,h2[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
-
-To manually initialize the project:
-
-. Navigate to https://start.spring.io.
-This service pulls in all the dependencies you need for an application and does most of the setup for you.
-. Choose either Gradle or Maven and the language you want to use. This guide assumes that you chose Java.
-. Click *Dependencies* and select *Spring Data JPA* and *H2 Database*.
-. Click *Generate*.
-. Download the resulting ZIP file, which is an archive of a web application that is configured with your choices.
-
-NOTE: We add the Vaadin dependency later in the guide.
-
-NOTE: If your IDE has the Spring Initializr integration, you can complete this process from your IDE.
+You can use this https://start.spring.io/#!type=maven-project&language=java&packaging=jar&jvmVersion=11&groupId=com.example&artifactId=crud-with-vaadin&name=crud-with-vaadin&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.crud-with-vaadin&dependencies=vaadin,data-jpa,h2[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
 
 NOTE: You can also fork the project from Github and open it in your IDE or other editor.
 
@@ -54,7 +41,7 @@ If you want to initialize the project manually rather than use the links shown e
 . Navigate to https://start.spring.io.
 This service pulls in all the dependencies you need for an application and does most of the setup for you.
 . Choose either Gradle or Maven and the language you want to use. This guide assumes that you chose Java.
-. Click *Dependencies* and select *Spring Data JPA* and *H2 Database*.
+. Click *Dependencies* and select *Vaadin*, *Spring Data JPA* and *H2 Database*.
 . Click *Generate*.
 . Download the resulting ZIP file, which is an archive of a web application that is configured with your choices.
 
@@ -105,8 +92,9 @@ include::complete/src/main/java/com/example/crudwithvaadin/CrudWithVaadinApplica
 
 == Vaadin Dependencies
 
-If you checked out the `initial` project, you have all necessary dependencies already set
-up. However, the rest of this section describes how to add Vaadin support to a fresh
+If you checked out the `initial` project, or you created your project with initializr,
+you have all necessary dependencies already set up.
+However, the rest of this section describes how to add Vaadin support to a fresh
 Spring project. Spring's Vaadin integration contains a Spring Boot starter dependency
 collection, so you need add only the following Maven snippet (or a corresponding Gradle
 configuration):
@@ -127,6 +115,9 @@ module. To use a newer version, define the Vaadin Bill of Materials (BOM) as fol
 include::complete/pom.xml[tag=bom]
 ----
 ====
+
+In developer mode, the dependency is enough, but When you are building for production,
+you need to enable your app for https://vaadin.com/docs/latest/production/production-build#enabling-production-builds[production builds].
 
 TIP: By default, Gradle does not support BOMs, but there is a handy
 https://plugins.gradle.org/plugin/io.spring.dependency-management[plugin for that]. Check out the
