@@ -65,7 +65,7 @@ public class CustomerEditor extends VerticalLayout implements KeyNotifier {
 		// wire action buttons to save, delete and reset
 		save.addClickListener(e -> save());
 		delete.addClickListener(e -> delete());
-		cancel.addClickListener(e -> editCustomer(customer));
+		cancel.addClickListener(e -> setVisible(false));
 		setVisible(false);
 	}
 
@@ -84,10 +84,6 @@ public class CustomerEditor extends VerticalLayout implements KeyNotifier {
 	}
 
 	public final void editCustomer(Customer c) {
-		if (c == null) {
-			setVisible(false);
-			return;
-		}
 		final boolean persisted = c.getId() != null;
 		if (persisted) {
 			// Find fresh entity for editing
