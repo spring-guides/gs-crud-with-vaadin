@@ -1,0 +1,41 @@
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/initial/"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
+    schedule:
+      interval: "monthly"
+    target-branch: "main"
+
+  - package-ecosystem: "gradle"
+    directory: "/initial/"
+    ignore:
+      - dependency-name: "org.springframework.*"
+        update-types: ["version-update:semver-patch"]
+      - dependency-name: "com.vaadin.*"
+        update-types: ["version-update:semver-patch"]
+    schedule:
+      interval: "monthly"
+    target-branch: "main"
+
+  - package-ecosystem: "maven"
+    directory: "/complete/"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
+    schedule:
+      interval: "monthly"
+    target-branch: "main"
+
+  - package-ecosystem: "gradle"
+    directory: "/complete/"
+    ignore:
+      - dependency-name: "org.springframework.*"
+        update-types: ["version-update:semver-patch"]
+      - dependency-name: "com.vaadin.*"
+        update-types: ["version-update:semver-patch"]
+    schedule:
+      interval: "monthly"
+    target-branch: "main"
