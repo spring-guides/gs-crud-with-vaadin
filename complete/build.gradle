@@ -1,9 +1,10 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.3.0'
-	id 'io.spring.dependency-management' version '1.1.5'
-	id 'com.vaadin' version '24.4.1'
+	id 'org.springframework.boot' version '3.3.1'
+	id 'com.vaadin' version '24.4.4'
 }
+
+apply plugin: 'io.spring.dependency-management'
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
@@ -14,7 +15,7 @@ repositories {
 }
 
 ext {
-	set('vaadinVersion', "24.4.1")
+	vaadinVersion = '24.4.4'
 }
 
 dependencies {
