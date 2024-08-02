@@ -30,7 +30,7 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 [[scratch]]
 == Starting with Spring Initializr
 
-You can use this https://start.spring.io/#!type=maven-project&language=java&packaging=jar&jvmVersion=11&groupId=com.example&artifactId=crud-with-vaadin&name=crud-with-vaadin&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.crud-with-vaadin&dependencies=vaadin,data-jpa,h2[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
+You can use this https://start.spring.io/#!type=maven-project&language=java&packaging=jar&jvmVersion={java_version}&groupId=com.example&artifactId=crud-with-vaadin&name=crud-with-vaadin&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.crud-with-vaadin&dependencies=vaadin,data-jpa,h2[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
 
 NOTE: You can also fork the project from Github and open it in your IDE or other editor.
 
