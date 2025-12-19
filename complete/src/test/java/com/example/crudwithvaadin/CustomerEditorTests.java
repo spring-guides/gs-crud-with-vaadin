@@ -7,55 +7,56 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.mockito.ArgumentMatcher;
-import org.mockito.InjectMocks;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class CustomerEditorTests {
 
-	private static final String FIRST_NAME = "Marcin";
-	private static final String LAST_NAME = "Grzejszczak";
+    private static final String FIRST_NAME = "Marcin";
+    private static final String LAST_NAME = "Grzejszczak";
 
-	@Mock CustomerRepository customerRepository;
-	@InjectMocks CustomerEditor editor;
-	@Mock CustomerEditor.ChangeHandler changeHandler;
+    @Mock CustomerRepository customerRepository;
+    CustomerEditor editor;
+    @Mock CustomerEditor.ChangeHandler changeHandler;
 
-	@BeforeEach
-	public void init() {
-		editor.setChangeHandler(changeHandler);
-	}
+    @BeforeEach
+    public void init() {
+        editor = new CustomerEditor(customerRepository);
+        editor.setChangeHandler(changeHandler);
+    }
 
-	@Test
-	public void shouldStoreCustomerInRepoWhenEditorSaveClicked() {
-		emptyCustomerWasSetToForm();
+    @Test
+    public void shouldStoreCustomerInRepoWhenEditorSaveClicked() {
+        emptyCustomerWasSetToForm();
 
-		this.editor.firstName.setValue(FIRST_NAME);
-		this.editor.lastName.setValue(LAST_NAME);
+        this.editor.firstName.setValue(FIRST_NAME);
+        this.editor.lastName.setValue(LAST_NAME);
 
-		this.editor.save();
+        this.editor.save();
 
-		then(this.customerRepository).should().save(argThat(customerMatchesEditorFields()));
-	}
+        then(this.customerRepository).should().save(argThat(customerMatchesEditorFields()));
+    }
 
-	@Test
-	public void shouldDeleteCustomerFromRepoWhenEditorDeleteClicked() {
-		customerDataWasFilled();
+    @Test
+    public void shouldDeleteCustomerFromRepoWhenEditorDeleteClicked() {
+        customerDataWasFilled();
 
-		editor.delete();
+        editor.delete();
 
-		then(this.customerRepository).should().delete(argThat(customerMatchesEditorFields()));
-	}
+        then(this.customerRepository).should().delete(argThat(customerMatchesEditorFields()));
+    }
 
-	private void emptyCustomerWasSetToForm() {
-		this.editor.editCustomer(new Customer());
-	}
-	private void customerDataWasFilled() {
-		this.editor.editCustomer(new Customer(FIRST_NAME, LAST_NAME));
-	}
+    private void emptyCustomerWasSetToForm() {
+        this.editor.editCustomer(new Customer());
+    }
+    private void customerDataWasFilled() {
+        this.editor.editCustomer(new Customer(FIRST_NAME, LAST_NAME));
+    }
 
-	private ArgumentMatcher<Customer> customerMatchesEditorFields() {
-		return customer -> FIRST_NAME.equals(customer.getFirstName()) && LAST_NAME.equals(customer.getLastName());
-	}
+    private ArgumentMatcher<Customer> customerMatchesEditorFields() {
+        return customer -> FIRST_NAME.equals(customer.getFirstName()) && LAST_NAME.equals(customer.getLastName());
+    }
 
 }

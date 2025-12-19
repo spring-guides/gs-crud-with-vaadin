@@ -116,8 +116,14 @@ include::complete/pom.xml[tag=bom]
 ----
 ====
 
-In developer mode, the dependency is enough, but When you are building for production,
-you need to enable your app for https://vaadin.com/docs/latest/production/production-build#enabling-production-builds[production builds].
+For developer mode you need to add an extra artifact that enables extra tooling for the developer.
+
+====
+[source,xml,indent=0]
+----
+include::complete/pom.xml[tag=dev]
+----
+====
 
 TIP: By default, Gradle does not support BOMs, but there is a handy
 https://plugins.gradle.org/plugin/io.spring.dependency-management[plugin for that]. Check out the
