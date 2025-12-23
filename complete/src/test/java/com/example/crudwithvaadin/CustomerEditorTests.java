@@ -9,9 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class CustomerEditorTests {
 
 	private static final String FIRST_NAME = "Marcin";
