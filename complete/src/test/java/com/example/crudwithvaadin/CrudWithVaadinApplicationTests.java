@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.BDDAssertions.*;
 
-@SpringBootTest(classes = CrudWithVaadinApplication.class, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@SpringBootTest
 public class CrudWithVaadinApplicationTests {
 
 	@Autowired
